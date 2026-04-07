@@ -25,7 +25,7 @@ local unicode_pieces = {
     -- p = "♙",
 }
 
-function M.showVirtualText()
+local function showVirtualText()
     local opts = { virt_lines = { { { "test", "normal" } } } }
 
     local id = vim.api.nvim_buf_set_extmark(0, namespace, 10, 0, opts)
@@ -82,11 +82,12 @@ end
 local function showVirtualFenBoard(line, fen)
     local virtualText = fenToVirtualText(fen)
     local opts = { virt_lines =  virtualText }
-    local id = vim.api.nvim_buf_set_extmark(0, namespace, line-1, 0, opts)
+    vim.api.nvim_buf_set_extmark(0, namespace, line-1, 0, opts)
 end
 
 
-local function showFENBoard()
+function M.showFENBoard()
+    vim.api.nvim_buf_clear_namespace(0, namespace, 0, -1)
     vim.cmd("highlight LightSquareWhite guibg=" .. LIGHT_SQUARE .. " guifg=" .. WHITE)
     vim.cmd("highlight LightSquareBlack guibg=" .. LIGHT_SQUARE .. " guifg=" .. BLACK)
     vim.cmd("highlight DarkSquareWhite guibg=" .. DARK_SQUARE .. " guifg=" .. WHITE)
@@ -98,13 +99,12 @@ local function showFENBoard()
     end
 end
 
-function M.setup()
-    vim.api.nvim_create_user_command('ChessViewer', function()
-        showFENBoard()
-    end, {})
+function M.pgn()
+     require("chess-viewer.pgn_to_fen").pgn_to_fen()
 end
 
--- M.showVirtualText()
+function M.setup()
+    -- print(vim.inspect(board))
+end
 
 return M
-

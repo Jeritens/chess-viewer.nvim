@@ -2,6 +2,7 @@ local M = {}
 
 -- 2d array
 -- file(column), row -> e4 -> board[5][4]
+-- TODO make them function local state
 local board = {}
 local half_moves = 0
 local can_white_castle_long = true
